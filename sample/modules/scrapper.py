@@ -1,68 +1,29 @@
-from urllib.error import HTTPError
-import mechanize
-import re
+from bs4 import BeautifulSoup
 
 
-class ScrappFb:
-    def __init__(self, url, email, password):
-        self.url = url
-        self.email = email
-        self.password = password
-        self.browser = mechanize.Browser()
-        self.page = None
-    
-    #Open an url and get past login requirment info
-    def open_url(self):
-        self.browser.open(self.url)
-        self.page = self.browser.follow_link(url_regex=re.compile('https://mbasic.facebook.com'))
+class Scrapper():
+    def __init__(self, post_id):
+        self.post_id = post_id
+        self.info = [self.post_id, [], []]
 
-    #Get past information about cookiers
-    def submit_cookies(self):
-        self.browser.select_form(nr=0)
-        self.page = self.browser.submit()
 
-    #Log in to the facebook
-    def log_in(self):
-        try:
-            self.browser.select_form(nr=0)
-            self.browser.form['email'] = "staneeeer@gmail.com"
-            self.browser.form['pass'] = "#Waldemar5"
-            self.page = self.browser.submit()
-        except HTTPError:
-            print("Niestety logowanie nie działa")
+    def get_reactors(self, page):
+        soup = BeautifulSoup(page, "html.parser")
 
-    def init_page(self):
-        try:
-            self.browser.set_handle_robots(False)
-            self.browser.set_handle_refresh(False)
-            self.browser.addheaders = [('User-agent', 'Chrome/121.0.0.0')]
-        except HTTPError:
-            print("mechnize.Browser initialization does not work")
+        ul = soup.ul
+        divs = ul.find_all('div')
 
-        try:
-            self.browser.open(self.url)
-            self.page = self.browser.follow_link(url_regex=re.compile('https://mbasic.facebook.com'))
-        except HTTPError:
-            print("Initial opening does not work")
+        for div in divs:
+            account = div.a.contents
+            self.info[2].append(account)
+        return self.info[2]
+        
 
-        try:
-            self.browser.select_form(nr=0)
-            self.page = self.browser.submit()
-        except HTTPError:
-            print("Cookies handler does not work")
+    def get_date(self, page):
+        pass
 
-        try:
-            self.browser.select_form(nr=0)
-            self.browser.form['email'] = "staneeeer@gmail.com"
-            self.browser.form['pass'] = "#Waldemar5"
-            print(self.browser)
-            # self.page = self.browser.submit()
-        except HTTPError:
-            print("Log in does not work")
-        # self.open_url()
-        # self.submit_cookies()
-        # self.log_in()
 
-    #Get html page
-    def get_page_data(self):
-        return self.page.get_data()
+    def get_all_info(self, post_page, reactors_page):
+        self.get_reactors(reactors_page)
+        self.get_date(post_page)
+        return self.info

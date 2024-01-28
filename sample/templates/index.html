@@ -1,11 +1,26 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Forteca app</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
-    </head>
-    <body>
-        Hello world!
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Forteca app - dodaj wpis</title>
+{% endblock %}
+
+{% block body %}
+
+<div id="content">
+    <div id="title">
+        <h1>Witaj!</h1>
+        <h2>Przed Tobą jest aplikacja służąca do śledzenia reakcji pod postami 234 WDH Forteca</h2>
+    </div>
+    <div id="url">
+        <form action="/" method="POST">
+            <label for="url_text">Podaj adres URL postu:</label>
+            <input type="text" placeholder="https://www.facebook.com/234Forteca" id="url_text">
+            <input type="submit" value="Dodaj wpis">
+        </form>
+    </div>
+    <div id="graphs">
+        <button id="get_graphs">Przejdź do wizualizacji</button>
+    </div>
+</div>
+
+{% endblock %}

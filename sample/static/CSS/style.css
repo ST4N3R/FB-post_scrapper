@@ -1,0 +1,44 @@
+body {
+    background-color: rgb(18, 28, 53);
+    color: rgb(250, 250, 250);
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+#title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 100%;
+}
+
+#title h1{
+    text-transform: uppercase;
+}
+
+#url {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#url form {
+    width: 100%;
+}
+
+#url_text {
+    width: 60%;
+}
+
+#graphs {
+    width: 100%;
+}

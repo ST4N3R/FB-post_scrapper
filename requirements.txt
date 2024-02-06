@@ -1,4 +1,5 @@
 Flask==3.0.0; python_version > '3.6'
+functions_framework
 gunicorn
 mechanize
 python-dotenv

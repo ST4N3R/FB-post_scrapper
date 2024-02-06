@@ -1,5 +1,0 @@
-Web scrapping - mbasic.facebook
-Automation - aws lambda
-Storage - aws dynamoDB/ aws simpledb
-Visualization - streamlit
-Deployment - streamlit

@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import datetime
 
 
 class Scrapper():
@@ -26,9 +27,42 @@ class Scrapper():
         
 
     def get_date(self, page):
+        months = {
+            "stycznia": 1,
+            "lutego": 2,
+            "marca": 3,
+            "kwietnia": 4,
+            "maja": 5,
+            "czerwca": 6,
+            "lipca": 7,
+            "sierpnia": 8,
+            "września": 9,
+            "października": 10,
+            "listopada": 11,
+            "grudnia": 12
+        }
+
         if self.info['release_date'] == []:
-            pass
-        return self.info['release_dat']
+            soup = BeautifulSoup(page, "html.parser")
+
+            abbr = soup.abbr.contents[0]
+            date = abbr.split(' ')
+            
+            if len(date) == 4:
+                year = datetime.datetime.now().year
+                month = months[date[1]]
+                day = date[0]
+                hour = date[3].split(':')[0]
+                minute = date[3].split(':')[1]
+            else:
+                year = date[2]
+                month = months[date[1]]
+                day = date[0]
+                hour = date[4].split(':')[0]
+                minute = date[4].split(':')[1]
+
+            self.info['release_date'] = datetime.datetime(year, month, day, hour, minute)
+        return self.info['release_date']
 
 
     def get_reaction_num(self, page):

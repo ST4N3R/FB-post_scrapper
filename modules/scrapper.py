@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import datetime
+import re
 
 
 class Scrapper():
@@ -61,13 +62,20 @@ class Scrapper():
                 hour = date[4].split(':')[0]
                 minute = date[4].split(':')[1]
 
-            self.info['release_date'] = datetime.datetime(year, month, day, hour, minute)
+            self.info['release_date'] = [year, month, day, hour, minute]
         return self.info['release_date']
 
 
     def get_reaction_num(self, page):
         if self.info['reaction_num'] == 0:
-            pass
+            soup = BeautifulSoup(page, "html.parser")
+
+            tags_a = soup.find_all('a')
+            filtered_a = list(filter(lambda a: re.search('/ufi/', a['href']), tags_a))
+            num = filtered_a[0].div.div
+            num = int(num.contents[0])
+            
+            self.info['reaction_num'] = num
         return self.info['reaction_num']
 
 

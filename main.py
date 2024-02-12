@@ -7,6 +7,7 @@ from modules.scrapper import Scrapper
 
 
 # todo: Zmienić nazwę fb_post_id na fb_post_url
+# todo: Usprawnić sposób pobierania danych
 def readData(client: datastore.Client):
     results = []
 

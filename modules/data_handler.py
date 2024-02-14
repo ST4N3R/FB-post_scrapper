@@ -2,7 +2,6 @@ from google.cloud import datastore
 from modules.connector import get_post_page, get_reactors_page
 from modules.scrapper import Scrapper, ChangeUrl
 import pandas as pd
-import numpy as np
 import os
 import datetime
 

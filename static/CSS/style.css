@@ -1,8 +1,9 @@
 :root {
-    --bcolor: rgb(4,28,58);
-    --menucolor: rgb(23,61,132);
-    --btncolor: rgb(188,118,3);
-    --textcolor: rgb(250, 250, 250)
+    --bColor: rgb(4,28,58);
+    --menuColor: rgb(23,61,132);
+    --btnColor: rgb(188,118,3);
+    --textColor: rgb(250, 250, 250);
+    --topMargin: 50px;
 }
 
 html {
@@ -10,19 +11,24 @@ html {
 }
 
 body {
-    background-color: var(--bcolor);
-    color: var(--textcolor);
+    background-color: var(--bColor);
+    color: var(--textColor);
     margin: 0px;
     height: 100%;
+}
+
+#container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
 }
 
 #content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
+    padding-left: var(--topMargin);
 }
 
 #title {
@@ -30,7 +36,6 @@ body {
     margin-bottom: 20px;
     margin-left: 20px;
     margin-right: 20px;
-    width: 100%;
 }
 
 #title h1{
@@ -38,6 +43,7 @@ body {
 }
 
 #url {
+    padding-left: var(--topMargin);
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -45,50 +51,40 @@ body {
 }
 
 #url form {
-    width: 100%;
+    width: 80%;
 }
 
 #url_text {
     width: 60%;
 }
 
-#graphs {
-    width: 100%;
-}
-
-#visualization {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-    height: 100%;
-}
-
 #vis_content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: auto;
-    margin-right: auto;
+    /* margin-left: auto;
+    margin-right: auto; */
     height: 100%;
+    width: 75%;
 }
 
 #vis_content h2 {
-    margin-top: 50px;
+    margin-top: var(--topMargin);
 }
 
 #sites {
     display: flex;
     flex-direction: column;
-    width: 30%;
+    min-width: 25%;
     min-height: 100%;
-    background-color: var(--menucolor);
+    background-color: var(--menuColor);
     padding: 15px;
 }
 
-#sites h3 {
-    margin-top: 50px;
+#sites div {
+    margin-top: var(--topMargin);
+    padding-left: 40px;
+    text-transform: uppercase;
 }
 
 #sites ul {
@@ -101,15 +97,34 @@ body {
 
 #sites a {
     display: flex;
-    color: var(--textcolor);
+    color: var(--textColor);
     text-decoration: none;
     width: 100%;
 }
 
 #sites a:hover {
-    background-color: var(--btncolor);
+    background-color: var(--btnColor);
     border: 2px;
     border-radius: 5px;
     width: 100%;
     cursor: pointer;
+}
+
+.vis_text {
+    text-align: center;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+}
+
+.filters input button{
+    border-radius: 5px;
+}
+
+.chart {
+    margin-top: 30px;
+    min-width: 60%;
 }

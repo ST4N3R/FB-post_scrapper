@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Forteca app - wizualizacjia</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<div id="vis_content">
+    <div class="vis_text">
+        <h2>Avg reactions in days of week</h2>
+        Filter the date posts were realesed
+    </div>
+    <div class="filters">
+        <form action="/day_of_week" method="POST">
+            <label for="startDate">From:</label>
+            <input type="text" placeholder="yyyy-mm-dd" id="startDate" name="startDate">
+            <label for="endDate">To:</label>
+            <input type="text" placeholder="yyyy-mm-dd" id="endDate" name="endDate">
+            <input type="submit" value="Filter">
+            <a href="{{ url_for('day_of_week') }}"><button>Clear filters</button></a>
+        </form>
+    </div>
+    <div class="chart">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+<script>
+    var r = document.querySelector(':root');
+    var rs = getComputedStyle(r);
+
+    const labels = {{ labels | tojson }};
+ 
+    console.log({{ labels | tojson }});
+    console.log({{ data | tojson }});
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Ilość likeów',
+            backgroundColor: rs.getPropertyValue('--bColor'),
+            borderColor: rs.getPropertyValue('--btnColor'),
+            data: {{ data | tojson }}
+        }]
+    };
+
+    const plugin = {
+        id: 'customCanvasBackgroundColor',
+        beforeDraw: (chart, args, options) => {
+            const {ctx} = chart;
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = options.color || '#99ffff';
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+        }
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            plugins: {
+            customCanvasBackgroundColor: {
+                color: rs.getPropertyValue('--textColor'),
+            }
+            }
+        },
+        plugins: [plugin],
+    };
+
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+
+</script>
+
+
+{% endblock %}

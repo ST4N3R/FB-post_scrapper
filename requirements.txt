@@ -1,6 +1,7 @@
 Flask==3.0.0; python_version > '3.6'
-functions_framework
+google-cloud-datastore
 gunicorn
 mechanize
 python-dotenv
 beautifulsoup4
+pandas

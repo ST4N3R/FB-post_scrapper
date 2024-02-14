@@ -3,6 +3,23 @@ import datetime
 import re
 
 
+class ChangeUrl():
+    def __init__(self, url: str):
+        self.url = url
+        pass
+
+    def get_postUrl(self):
+        id = self.get_id()
+        return f"https://mbasic.facebook.com/story.php?story_fbid={id}&id=100063532603663"
+    
+    def get_reactorsUrl(self):
+        id = self.get_id()
+        return f"https://mbasic.facebook.com/ufi/reaction/profile/browser/fetch/?limit=60&total_count=17&ft_ent_identifier={id}"
+    
+    def get_id(self):
+        return self.url.split('/')[5]
+
+
 class Scrapper():
     def __init__(self, post_id):
         self.post_id = post_id
@@ -46,21 +63,23 @@ class Scrapper():
         if self.info['release_date'] == []:
             soup = BeautifulSoup(page, "html.parser")
 
+            print(soup.abbr)
+            print(soup.prettify())
             abbr = soup.abbr.contents[0]
             date = abbr.split(' ')
             
             if len(date) == 4:
                 year = datetime.datetime.now().year
                 month = months[date[1]]
-                day = date[0]
-                hour = date[3].split(':')[0]
-                minute = date[3].split(':')[1]
+                day = int(date[0])
+                hour = int(date[3].split(':')[0])
+                minute = int(date[3].split(':')[1])
             else:
                 year = date[2]
                 month = months[date[1]]
-                day = date[0]
-                hour = date[4].split(':')[0]
-                minute = date[4].split(':')[1]
+                day = int(date[0])
+                hour = int(date[4].split(':')[0])
+                minute = int(date[4].split(':')[1])
 
             self.info['release_date'] = [year, month, day, hour, minute]
         return self.info['release_date']

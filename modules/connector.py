@@ -11,10 +11,11 @@ def init(browser: mechanize.Browser, url: str):
     browser.addheaders = [('User-agent', 'Chrome/120.0.0.0')]
     browser.set_handle_refresh(False)
     browser.open(url)
+    browser.set_proxies()
     return browser
 
 
-def open_url(browser: mechanize.Browser, url: str):
+def open_url(browser: mechanize.Browser):
     page = browser.follow_link(url_regex=re.compile('https://mbasic.facebook.com'))
     return browser, page
 

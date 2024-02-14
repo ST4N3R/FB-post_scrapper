@@ -1,6 +1,19 @@
+:root {
+    --bcolor: rgb(4,28,58);
+    --menucolor: rgb(23,61,132);
+    --btncolor: rgb(188,118,3);
+    --textcolor: rgb(250, 250, 250)
+}
+
+html {
+    height: 100%;
+}
+
 body {
-    background-color: rgb(18, 28, 53);
-    color: rgb(250, 250, 250);
+    background-color: var(--bcolor);
+    color: var(--textcolor);
+    margin: 0px;
+    height: 100%;
 }
 
 #content {
@@ -41,4 +54,62 @@ body {
 
 #graphs {
     width: 100%;
+}
+
+#visualization {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+}
+
+#vis_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+}
+
+#vis_content h2 {
+    margin-top: 50px;
+}
+
+#sites {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    min-height: 100%;
+    background-color: var(--menucolor);
+    padding: 15px;
+}
+
+#sites h3 {
+    margin-top: 50px;
+}
+
+#sites ul {
+    list-style-type: none;
+}
+
+#sites li {
+    width: 80%;
+}
+
+#sites a {
+    display: flex;
+    color: var(--textcolor);
+    text-decoration: none;
+    width: 100%;
+}
+
+#sites a:hover {
+    background-color: var(--btncolor);
+    border: 2px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
 }

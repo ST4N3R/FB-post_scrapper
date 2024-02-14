@@ -9,7 +9,7 @@
 
 <div id="vis_content">
     <div class="vis_text">
-        <h2>Avg reactions in days of week</h2>
+        <h2>Avg reactions by days of week</h2>
         Filter the date posts were realesed
     </div>
     <div class="filters">
@@ -38,7 +38,7 @@
     const data = {
         labels: labels,
         datasets: [{
-            label: 'Ilość likeów',
+            label: 'Avg reactions',
             backgroundColor: rs.getPropertyValue('--bColor'),
             borderColor: rs.getPropertyValue('--btnColor'),
             data: {{ data | tojson }}

@@ -2,6 +2,7 @@ from google.cloud import datastore
 from modules.connector import get_post_page, get_reactors_page
 from modules.scrapper import Scrapper, ChangeUrl
 import pandas as pd
+import numpy as np
 import os
 import datetime
 
@@ -86,3 +87,60 @@ class DataHandler():
                 group[i] = 0.0
         
         return group.sort_index()
+    
+
+    def month_by_reactionNum(self, **kwargs):
+        if self.data.empty:
+            self.readData()
+        else:
+            self.data['month'] = self.data['release_date'].apply(lambda x: x.month)
+
+        if 'startDate' in kwargs.keys():
+            startDate = pd.Timestamp(kwargs['startDate'])
+        else:
+            startDate = self.data['release_date'].min()
+        if 'endDate' in kwargs.keys():
+            endDate = pd.Timestamp(kwargs['endDate'])
+        else:
+            endDate = pd.Timestamp.today()
+
+        data_filtered = self.data[(self.data['release_date'] >= startDate) & (self.data['release_date'] <= endDate)]
+        group = data_filtered.groupby('month')['reaction_num'].apply(np.average)
+
+        for i in range(1, 13):
+            try:
+                group[i]
+            except:
+                group[i] = 0.0
+
+        return group.sort_index()
+    
+
+    def hole_year(self, **kwargs):
+        if self.data.empty:
+            self.readData()
+        
+        if 'startDate' in kwargs.keys():
+            startDate = pd.Timestamp(kwargs['startDate'])
+        else:
+            startDate = self.data['release_date'].min()
+        if 'endDate' in kwargs.keys():
+            endDate = pd.Timestamp(kwargs['endDate'])
+        else:
+            endDate = pd.Timestamp.today()
+
+        dates = []
+        nums = []
+
+        data_filtered = self.data[(self.data['release_date'] >= startDate) & (self.data['release_date'] <= endDate)]
+        data_filtered = data_filtered.sort_values('release_date')
+
+        for i, j in zip(data_filtered['release_date'], data_filtered['reaction_num']):
+            dates.append(i.strftime('%Y-%m-%d'))
+            nums.append(j)
+
+        if len(dates) > 30:
+            dates = dates[:30]
+            nums = nums[:30]
+
+        return dates, nums

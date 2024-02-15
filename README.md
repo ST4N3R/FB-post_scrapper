@@ -1,2 +1,0 @@
-# Forteca app
- 

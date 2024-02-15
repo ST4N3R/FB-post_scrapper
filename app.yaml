@@ -6,9 +6,5 @@ runtime_config:
 env: standard
 entrypoint: gunicorn -b :$PORT main:app
 
-manual_scaling:
-  instances: 1
-resources:
-  cpu: 1
-  memory_gb: 0.384
-  disk_size_gb: 10
+automatic_scaling:
+  min_instances: 1

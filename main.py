@@ -74,5 +74,21 @@ def hole_year():
                                labels=dates,
                                data=nums)
 
+
+@app.route('/reactors', methods=['POST', 'GET'])
+def reactors():
+    dataHandler = DataHandler()
+
+    if request.method == 'POST':
+        url = request.form['url_text']
+
+        if dataHandler.addData(url):
+            return url
+        else:
+            return "Coś poszło nie tak"
+    else:
+        return render_template('reactors.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

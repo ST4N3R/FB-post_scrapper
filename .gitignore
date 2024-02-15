@@ -1,3 +1,4 @@
 .env
 **/bin
 serviceKey.json
+/templates/reactors.html

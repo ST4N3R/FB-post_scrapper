@@ -7,7 +7,7 @@
 
 ## About <a name = "about"></a>
 
-I wanted to track the results of my scout team's fan page, but unfortunately, FB didn't have the tools that satisfied me. So, I created this application! Thanks to it, I can add entries about posts to the database hosted on the Google Cloud Platform and download data from it to create charts. You can access it at this page: [text](https://forteca-reactions.lm.r.appspot.com/)
+I wanted to track the results of my scout team's fan page, but unfortunately, FB didn't have the tools that satisfied me. So, I created this application! Thanks to it, I can add entries about posts to the database hosted on the Google Cloud Platform and download data from it to create charts. You can access it at this page: [forteca-reactions](https://forteca-reactions.lm.r.appspot.com/)
 
 ## Getting Started <a name = "getting_started"></a>
 

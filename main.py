@@ -9,6 +9,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def index():
     dataHandler = DataHandler()
+    lp, postId, reactionNum, releaseDate = dataHandler.db_view()
 
     if request.method == 'POST':
         url = request.form['url_text']
@@ -18,7 +19,11 @@ def index():
         else:
             return "Coś poszło nie tak"
     else:
-        return render_template('index.html')
+        return render_template(template_name_or_list='index.html',
+                               lp=lp,
+                               postId=postId,
+                               reactionNum=reactionNum,
+                               releaseDate=releaseDate)
 
 
 @app.route('/day_of_week', methods=['POST', 'GET'])
@@ -31,11 +36,11 @@ def day_of_week():
         endDate = request.form['endDate']
         return render_template(template_name_or_list='day_of_week.html',
                                labels=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                               data=dataHandler.dayOfWeek_by_reactionNum(startDate=startDate, endDate=endDate).to_list())
+                               data=dataHandler.dayOfWeek_by_reactionNum(startDate=startDate, endDate=endDate))
     else:
         return render_template(template_name_or_list='day_of_week.html',
                                labels=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                               data=dataHandler.dayOfWeek_by_reactionNum().to_list(),)
+                               data=dataHandler.dayOfWeek_by_reactionNum())
 
 
 @app.route('/months', methods=['POST', 'GET'])
@@ -48,11 +53,11 @@ def months():
         endDate = request.form['endDate']
         return render_template(template_name_or_list='months.html',
                                labels=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Oct', 'Dec'],
-                               data=dataHandler.month_by_reactionNum(startDate=startDate, endDate=endDate).to_list())
+                               data=dataHandler.month_by_reactionNum(startDate=startDate, endDate=endDate))
     else:
         return render_template(template_name_or_list='months.html',
                                labels=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Oct', 'Dec'],
-                               data=dataHandler.month_by_reactionNum().to_list())
+                               data=dataHandler.month_by_reactionNum())
 
 
 @app.route('/hole_year', methods=['POST', 'GET'])

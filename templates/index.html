@@ -13,8 +13,42 @@
         <span>The ability to add new entries to the database was available here, but unfortunately, I had to move it. 
             I want to use this application on a daily basis, so I don't want entries that could disrupt the analysis to be included there.</span>
     </div>
-    <div id="url">
-        
+    <div id="db_info">
+        <table id="db_table">
+            <tr>
+                <th>LP</td>
+                <th>Facebook post id</th>
+                <th>Number of reactions</th>
+                <th>Post release date</th>
+            </tr>
+            <script>
+                var r = document.querySelector(':root');
+                var rs = getComputedStyle(r);
+                var table = document.getElementById("db_table");
+
+                const lp = {{ lp | tojson }};
+                const postId = {{ postId | tojson }};
+                const reactionNum = {{ reactionNum | tojson }};
+                const releaseDate = {{ releaseDate | tojson }};
+
+                console.log(lp);
+                console.log(postId[2]);
+
+                for (var i = 1; i <= lp; i++) {
+                    var newRow = table.insertRow(i);
+
+                    var cellLp = newRow.insertCell(0);
+                    var cellFb = newRow.insertCell(1);
+                    var cellReactions = newRow.insertCell(2);
+                    var cellDate = newRow.insertCell(3);
+
+                    cellLp.innerHTML = i;
+                    cellFb.innerHTML = postId[i-1];
+                    cellReactions.innerHTML = reactionNum[i-1];
+                    cellDate.innerHTML = releaseDate[i-1];
+                }
+            </script>
+        </table>
     </div>
 </div>
 

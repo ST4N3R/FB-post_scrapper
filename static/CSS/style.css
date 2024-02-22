@@ -42,6 +42,34 @@ body {
     text-transform: uppercase;
 }
 
+
+#db_info {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 60%;
+}
+
+#db_table {
+    max-width: 90%;
+    display: flex;
+}
+
+#db_table th, td{
+    border: 1px solid #ddd;
+    padding: 8px;
+    width: auto;
+}
+
+#db_table tr:nth-child(even){background-color: var(--menuColor);}
+
+#db_table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--btnColor);
+}
+
 #url {
     padding-left: var(--topMargin);
     display: flex;

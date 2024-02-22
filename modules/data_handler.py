@@ -86,7 +86,7 @@ class DataHandler():
             except:
                 group[i] = 0.0
         
-        return group.sort_index()
+        return group.sort_index().to_list()
     
 
     def month_by_reactionNum(self, **kwargs):
@@ -113,7 +113,7 @@ class DataHandler():
             except:
                 group[i] = 0.0
 
-        return group.sort_index()
+        return group.sort_index().to_list()
     
 
     def hole_year(self, **kwargs):
@@ -144,3 +144,20 @@ class DataHandler():
             nums = nums[:30]
 
         return dates, nums
+    
+
+    def db_view(self):
+        if self.data.empty:
+            self.readData()
+
+        lp = len(self.data)
+        if lp > 10:
+            df = self.data[:10]
+        else:
+            df = self.data
+
+        postId = df['fb_post_url'].to_list()
+        reactionNum = df['reaction_num'].to_list()
+        releaseDate =df['release_date'].to_list()
+
+        return lp, postId, reactionNum, releaseDate

@@ -9,15 +9,21 @@ class ChangeUrl():
         pass
 
     def get_postUrl(self):
-        id = self.get_id()
-        return f"https://mbasic.facebook.com/story.php?story_fbid={id}&id=100063532603663"
+        id, isPhoto = self.get_id()
+        if isPhoto:
+            return f"https://mbasic.facebook.com/photo.php?fbid={id}&id=100063532603663"
+        else:
+            return f"https://mbasic.facebook.com/story.php?story_fbid={id}&id=100063532603663"
     
     def get_reactorsUrl(self):
         id = self.get_id()
-        return f"https://mbasic.facebook.com/ufi/reaction/profile/browser/fetch/?limit=60&total_count=17&ft_ent_identifier={id}"
+        return f"https://mbasic.facebook.com/ufi/reaction/profile/browser/fetch/?ft_ent_identifier={id}&limit=60&total_count=60"
     
     def get_id(self):
-        return self.url.split('/')[5]
+        try:
+            return self.url.split('/')[5], False
+        except:
+            return self.url.split('/')[3].split('=')[1].split('&')[0], True
 
 
 class Scrapper():
@@ -57,7 +63,19 @@ class Scrapper():
             "września": 9,
             "października": 10,
             "listopada": 11,
-            "grudnia": 12
+            "grudnia": 12,
+            "sty": 1,
+            "lut": 2,
+            "mar": 3,
+            "kwi": 4,
+            "maj": 5,
+            "cze": 6,
+            "lip": 7,
+            "sie": 8,
+            "wrz": 9,
+            "paź": 10,
+            "lis": 11,
+            "gru": 12
         }
 
         if self.info['release_date'] == []:
@@ -69,13 +87,13 @@ class Scrapper():
             date = abbr.split(' ')
             
             if len(date) == 4:
-                year = datetime.datetime.now().year
+                year = int(datetime.datetime.now().year)
                 month = months[date[1]]
                 day = int(date[0])
                 hour = int(date[3].split(':')[0])
                 minute = int(date[3].split(':')[1])
             else:
-                year = date[2]
+                year = int(date[2])
                 month = months[date[1]]
                 day = int(date[0])
                 hour = int(date[4].split(':')[0])

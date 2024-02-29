@@ -105,6 +105,7 @@ body {
     flex-direction: column;
     min-width: 25%;
     min-height: 100%;
+    height: auto;
     background-color: var(--menuColor);
     padding: 15px;
 }

@@ -4,6 +4,7 @@ import re
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv 
+from bs4 import BeautifulSoup
 
 
 def init(browser: mechanize.Browser, url: str):
@@ -34,8 +35,10 @@ def log_in(browser: mechanize.Browser):
     password = str( os.environ.get('FAKE_FB_PASSWORD'))
 
     browser.select_form(nr = 0) 
+
     browser.form['email'] = email
     browser.form['pass'] = password
+
     page = browser.submit()
     return browser, page
 
@@ -51,6 +54,13 @@ def get_post_page(postUrl: str):
     return page.get_data()
 
 
-# todo: Dodać możliwość łączenia się ze stroną z osobami, które zareagowały na posta
 def get_reactors_page(reactorsUrl: str):
-    pass
+    browser = mechanize.Browser()
+    page = None
+
+    browser = init(browser, reactorsUrl)
+    browser, page = open_url(browser)
+    browser, page = submit_cookies(browser)
+    browser, page = log_in(browser)
+
+    return page.get_data()

@@ -1,12 +1,13 @@
 from bs4 import BeautifulSoup
 import datetime
 import re
+import json
 
 
 class ChangeUrl():
     def __init__(self, url: str):
         self.url = url
-        pass
+
 
     def get_postUrl(self):
         id, isPhoto = self.get_id()
@@ -16,8 +17,8 @@ class ChangeUrl():
             return f"https://mbasic.facebook.com/story.php?story_fbid={id}&id=100063532603663"
     
     def get_reactorsUrl(self):
-        id = self.get_id()
-        return f"https://mbasic.facebook.com/ufi/reaction/profile/browser/fetch/?ft_ent_identifier={id}&limit=60&total_count=60"
+        id, isPhoto = self.get_id()
+        return f"https://mbasic.facebook.com/ufi/reaction/profile/browser/fetch/?limit=50&total_count=50&ft_ent_identifier={id}"
     
     def get_id(self):
         try:
@@ -32,21 +33,26 @@ class Scrapper():
         self.info = {
             'post_id': self.post_id,
             'reaction_num': 0,
-            'reactors': [],
+            'reactors': 0,
             'release_date': []
         }
 
 
     def get_reactors(self, page):
-        if self.info['reactors'] == []:
+        if self.info['reactors'] == 0:
             soup = BeautifulSoup(page, "html.parser")
+            reactors = []
 
             ul = soup.ul
             divs = ul.find_all('div')
+            test = ''
 
             for div in divs:
-                account = div.a.contents
-                self.info['reactors'].append(account)
+                account = str(div.a.contents[0])
+                reactors.append(account)
+
+            self.info['reactors'] = reactors
+
         return self.info['reactors']
         
 
@@ -81,8 +87,6 @@ class Scrapper():
         if self.info['release_date'] == []:
             soup = BeautifulSoup(page, "html.parser")
 
-            print(soup.abbr)
-            print(soup.prettify())
             abbr = soup.abbr.contents[0]
             date = abbr.split(' ')
             

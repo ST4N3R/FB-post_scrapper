@@ -20,6 +20,7 @@ class DataHandler():
         release_date = []
         reaction_num = []
         post_id = []
+        reactors = []
         for result in query.fetch():
             release_date.append(datetime.datetime(year=result['release_date'][0],
                                         month=result['release_date'][1],
@@ -28,11 +29,13 @@ class DataHandler():
                                         minute=result['release_date'][4]))
             reaction_num.append(result['reaction_num'])
             post_id.append(result['fb_post_url'])
+            reactors.append(result['reactors'])
         
         self.data = pd.DataFrame({
             'release_date': release_date, 
             'reaction_num': reaction_num, 
-            'fb_post_url': post_id
+            'fb_post_url': post_id,
+            'reactors': reactors
             })
         return self.data
 
@@ -40,21 +43,27 @@ class DataHandler():
     def addData(self, post_id: str):
         changeUrl = ChangeUrl(post_id)
         url = changeUrl.get_postUrl()
+        url_r = changeUrl.get_reactorsUrl()
 
         postPage = get_post_page(url)
+        reactorsPage = get_reactors_page(url_r)
 
-        scrapper = Scrapper(changeUrl.get_id())
+        id, isPhoto = changeUrl.get_id()
+        scrapper = Scrapper(id)
         date = scrapper.get_date(postPage)
         reaction_num = scrapper.get_reaction_num(postPage)
+        reactors = scrapper.get_reactors(reactorsPage)
 
         try:
             entity = datastore.Entity(self.dataClient.key('posts'))
-            entity.update({
-                'release_date': date,
-                'reaction_num': reaction_num,
-                'fb_post_url': changeUrl.get_id()
-            })
 
+            entity.update({
+                    'release_date': date,
+                    'reaction_num': reaction_num,
+                    'fb_post_url': id,
+                    'reactors': reactors
+                })
+            
             self.dataClient.put(entity)
 
             return True
@@ -161,3 +170,21 @@ class DataHandler():
         releaseDate =df['release_date'].to_list()
 
         return lp, postId, reactionNum, releaseDate
+    
+
+    def reactors_list(self, **kwargs):
+        if self.data.empty:
+            self.readData()
+        
+        reactors = []
+        lp = 20
+        for row in self.data['reactors']:
+            reactors += row
+        
+        df = pd.DataFrame(data=reactors, columns=["Name"])
+        valuesCount = df.value_counts()[:lp]
+
+        indxs = valuesCount.index.to_list()
+        nums = valuesCount.values.tolist()
+
+        return  indxs, nums, lp

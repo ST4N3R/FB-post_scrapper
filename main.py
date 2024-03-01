@@ -80,8 +80,8 @@ def hole_year():
                                data=nums)
 
 
-@app.route('/reactors', methods=['POST', 'GET'])
-def reactors():
+@app.route('/addEntry', methods=['POST', 'GET'])
+def addEntry():
     dataHandler = DataHandler()
     dataHandler.readData()
 
@@ -92,6 +92,29 @@ def reactors():
             return url
         else:
             return "Coś poszło nie tak"
+    else:
+        names, data, lp = dataHandler.reactors_list()
+        return render_template(template_name_or_list='reactors.html',
+                               lp=lp,
+                               names=names,
+                               data=data)
+    
+
+@app.route('/reactors', methods=['POST', 'GET'])
+def reactors():
+    dataHandler = DataHandler()
+    dataHandler.readData()
+
+    if request.method == 'POST':
+        startDate = request.form['reactorsStartDate']
+        endDate = request.form['reactorsEndDate']
+
+        names, data, lp = dataHandler.reactors_list(startDate=startDate, endDate=endDate)
+
+        return render_template(template_name_or_list='reactors.html',
+                               lp=lp,
+                               names=names,
+                               data=data)
     else:
         names, data, lp = dataHandler.reactors_list()
         return render_template(template_name_or_list='reactors.html',

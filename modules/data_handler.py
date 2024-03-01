@@ -176,9 +176,21 @@ class DataHandler():
         if self.data.empty:
             self.readData()
         
+        if 'startDate' in kwargs.keys():
+            startDate = pd.Timestamp(kwargs['startDate'])
+        else:
+            startDate = self.data['release_date'].min()
+        if 'endDate' in kwargs.keys():
+            endDate = pd.Timestamp(kwargs['endDate'])
+        else:
+            endDate = pd.Timestamp.today()
+        
         reactors = []
+        
+        data_filtered = self.data[(self.data['release_date'] >= startDate) & (self.data['release_date'] <= endDate)]
+        
         lp = 20
-        for row in self.data['reactors']:
+        for row in data_filtered['reactors']:
             reactors += row
         
         df = pd.DataFrame(data=reactors, columns=["Name"])

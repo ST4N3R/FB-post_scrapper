@@ -111,10 +111,19 @@ class Scrapper():
         if self.info['reaction_num'] == 0:
             soup = BeautifulSoup(page, "html.parser")
 
+            print(soup.prettify())
+
             tags_a = soup.find_all('a')
             filtered_a = list(filter(lambda a: re.search('/ufi/', a['href']), tags_a))
-            num = filtered_a[0].div.div
-            num = int(num.contents[0])
+            txt = filtered_a[0].div.div
+            txt = txt.contents[0]
+
+            if len(re.findall("\d", txt)) > 3:
+                num = ''.join(re.findall("\d", txt)[3:])
+            else:
+                num = txt
+            
+            num = int(num)
             
             self.info['reaction_num'] = num
         return self.info['reaction_num']
